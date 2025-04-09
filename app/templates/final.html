@@ -1,0 +1,229 @@
+{% extends "base.html" %}
+{% block content %}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/final_format.css') }}">
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-white">
+        <span class="navbar-brand">AI for Agriculture</span>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/label.html">Train</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/saved">Saved</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/analytics">Analytics</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Profile
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="/profile">Update Profile</a>
+                        <a class="dropdown-item" href="{{ url_for('logout') }}">Log Out</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</body>
+		
+	<div class="container">
+        <div class="container">
+
+			<h5 class="font-weight-light text-center text-lg-left mt-4 mb-0">Healthy(User):
+				{{healthNum_user}} <a href="javascript:void(0)" data-toggle="popover" data-trigger="focus" data-content="Click on image to view full size"> <span class="fa fa-search"></span></a>
+            </h5>
+
+			<hr class="mt-2 mb-5">
+
+			<div class="row text-center text-lg-left">
+				{%for i in health_user%}
+				<div class="col-lg-3 col-md-4 col-6 d-block mb-4 h-100">
+					<img class="img-fluid img-rounded"
+						src="https://agro-ai-maize.s3.us-east-2.amazonaws.com/images_compressed/{{i}}"
+						alt="{{i}}">
+				</div>
+				{%endfor%}
+				<div id="imgModal" class="modal">
+
+					<span class="close">&times;</span>
+
+					<img class="modal-content" id="imgset">
+				</div>
+			</div>
+		</div>
+		<div class="container">
+
+			<h5 class="font-weight-light text-center text-lg-left mt-4 mb-0">Unhealthy(User):
+				{{blightNum_user}} <a href="javascript:void(0)" data-toggle="popover" data-trigger="focus" data-content="Click on image to view full size"> <span class="fa fa-search"></span></a>
+            </h5>
+
+			<hr class="mt-2 mb-5">
+
+			<div class="row text-center text-lg-left">
+				{%for i in blight_user%}
+				<div class="col-lg-3 col-md-4 col-6 d-block mb-4 h-100">
+					<img class="img-fluid img-rounded"
+						src="https://agro-ai-maize.s3.us-east-2.amazonaws.com/images_compressed/{{i}}"
+						alt="{{i}}">
+				</div>
+				{%endfor%}
+				<div id="imgModal" class="modal">
+
+					<span class="close">&times;</span>
+
+					<img class="modal-content" id="imgset">
+				</div>
+			</div>
+		</div>
+		<div class="container">
+
+			<h5 class="font-weight-light text-center text-lg-left mt-4 mb-0">Healthy Test(Machine): {{healthyNum}} ({{healthyPct}})
+			<a href="javascript:void(0)" data-toggle="popover" data-trigger="focus" data-content="This is the percentage of &quot;Healthy&quot; images in the image set of predicting results">
+                <span class="fa fa-info-circle" style="font-size:24px"></span></a>
+			<a href="javascript:void(0)" data-toggle="popover" data-trigger="focus" data-content="Click on image to view full size">
+			    <span class="fa fa-search"></span></a></h5>
+
+			<hr class="mt-2 mb-5">
+
+			<div class="row text-center text-lg-left">
+				{%for i in range(0, healthyNum)%}
+				<div id="healthy_checkboxes" class="col-lg-3 col-md-4 col-6 d-block mb-4 h-100">
+					<img class="img-fluid img-rounded"
+						src="https://agro-ai-maize.s3.us-east-2.amazonaws.com/images_compressed/{{health_test[i]}}"
+						alt="{{health_test[i]}}">
+					<h6 class="font-weight-normal">Individual Confidence: {{"{:.0%}".format(h_prob[i])}}
+					<h6 class="font-weight-normal">Disagree with the prediction?
+	                <input type="checkbox" name="healthy" value="{{health_test[i]}}" conf-value="{{h_prob[i]}}"><br>
+				</div>
+				{%endfor%}
+				<div id="imgModal" class="modal">
+
+					<span class="close">&times;</span>
+
+					<img class="modal-content" id="imgset">
+				</div>
+			</div>
+		</div>
+
+		<div class="container">
+
+			<h5 class="font-weight-light text-center text-lg-left mt-4 mb-0">Unhealthy Test(Machine): {{unhealthyNum}} ({{unhealthyPct}})
+			<a href="javascript:void(0)" data-toggle="popover" data-trigger="focus" data-content="This is the percentage of &quot;Unhealthy&quot; images in the image set of predicting results">
+                            <span class="fa fa-info-circle" style="font-size:24px"></span></a>
+			<a href="javascript:void(0)" data-toggle="popover" data-trigger="focus" data-content="Click on image to view full size"> <span class="fa fa-search"></span></a></h5>
+
+			<hr class="mt-2 mb-5">
+
+			<div class="row text-center text-lg-left">
+				{%for i in range(0, unhealthyNum)%}
+				<div id="unhealthy_checkboxes" class="col-lg-3 col-md-4 col-6 d-block mb-4 h-100">
+					<img class="img-fluid img-rounded"
+						src="https://agro-ai-maize.s3.us-east-2.amazonaws.com/images_compressed/{{unhealth_test[i]}}"
+						alt="{{unhealth_test[i]}}">
+					<h6 class="font-weight-normal">Individual Confidence: {{"{:.0%}".format(b_prob[i])}}
+					<h6 class="font-weight-normal">Disagree with the prediction?
+	                <input type="checkbox" name="unhealthy" value="{{unhealth_test[i]}}" conf-value="{{b_prob[i]}}"><br>
+				</div>
+				{%endfor%}
+				<div id="imgModal" class="modal">
+
+					<span class="close">&times;</span>
+
+					<img class="modal-content" id="imgset">
+				</div>
+			</div>
+        </div>
+        <div class="container">
+            <hr class="mt-2 mb-5">
+            <div id="result">
+			    <p><h5 class="font-weight-normal">The Number of Disagreed Predictions for Healthy: <span id="healthyselected">0</span></p>
+			    <p><h5 class="font-weight-normal">The Number of Disagreed Predictions for Unhealthy: <span id="unhealthyselected">0</span></p>
+			    <br>
+			    <button id="img" class="mb-2 mt-4 active_button">Show Selected Images</button>
+			</div>
+		</div>
+	</div>
+    <footer class="page-footer font-small">
+    <div class="footer-copyright text-center py-3">&copy; 2020 Copyright:
+    <a href="/">CornAI</a>
+    </div>
+    </footer>
+	<script>
+	var modal = document.getElementById('imgModal');
+	var images = document.querySelectorAll(".img-rounded");
+	var modalImg = document.getElementById("imgset");
+	for(let i = 0; i < images.length; i++){
+	  images[i].onclick = function(){
+	    modal.style.display = "block";
+	    modalImg.src = this.src;
+	  }
+	}
+
+	var span = document.getElementsByClassName("close")[0];
+
+	span.onclick = function(){
+	  modal.style.display = "none";
+	}
+	$(document).ready(function(){
+        $('[data-toggle="popover"]').popover();
+    });
+
+    const healthyselectedElm = document.getElementById('healthyselected');
+    const unhealthyselectedElm = document.getElementById('unhealthyselected');
+
+    function showChecked(){
+    healthyselectedElm.innerHTML = document.querySelectorAll('input[name=healthy]:checked').length;
+    unhealthyselectedElm.innerHTML = document.querySelectorAll('input[name=unhealthy]:checked').length;
+    }
+
+    document.querySelectorAll("input[name=healthy]").forEach(i=>{
+    i.onclick = () => showChecked();
+    });
+
+    document.querySelectorAll("input[name=unhealthy]").forEach(i=>{
+    i.onclick = () => showChecked();
+    });
+    
+    $(document).ready(function(){
+        $('#img').on('click', function(){
+            
+            var healthy_list = [];
+            var unhealthy_list = [];
+            var healthy_conf_list = [];
+            var unhealthy_conf_list = [];
+            
+            $("input:checkbox[name=healthy]:checked").each(function(){
+                healthy_list.push($(this).attr("value"));
+                healthy_conf_list.push($(this).attr("conf-value"));
+            });
+            if(healthy_list.length == 0){
+                healthy_list.push("null");
+            }
+            if(healthy_conf_list.length == 0){
+                healthy_conf_list.push("0");
+            }
+            
+            $("input:checkbox[name=unhealthy]:checked").each(function(){
+                unhealthy_list.push($(this).attr("value"));
+                unhealthy_conf_list.push($(this).attr("conf-value"));
+            });
+            if(unhealthy_list.length == 0){
+               unhealthy_list.push("null"); 
+            }
+            if(unhealthy_conf_list.length == 0){
+                unhealthy_conf_list.push("0");
+            }            
+            window.location.href = '/feedback/' + healthy_list + "/" + unhealthy_list + "/" + healthy_conf_list + "/" + unhealthy_conf_list;                           
+        });
+    });
+	</script>
+</body>
+</html>
+{% endblock %}

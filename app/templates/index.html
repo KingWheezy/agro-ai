@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block content %}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/index_format.css') }}">
+
+<body>
+	<div class="container-fluid">
+		<div class="row justify-content-center">
+			<div class="col-md-8 col-lg-6">
+				<div class="start d-flex py-5">
+					<div class="container text-center">
+						<h1 class="start-heading mb-4">
+							AI for Agriculture
+						</h1>
+						
+						<div class="box mb-4 p-4 border rounded">
+							<p>Help farmers to learn about Machine Learning and build up farmer's trust in AI</p>
+						</div>
+
+						<div class="d-flex justify-content-center">
+							<a href="login">
+								<button class="btn btn-lg btn-primary text-uppercase font-weight-bold mb-2 mr-3">
+									Login
+								</button>
+							</a>
+							<a href="register">
+								<button class="btn btn-lg btn-primary text-uppercase font-weight-bold mb-2 mr-3">
+									Register
+								</button>
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<footer class="page-footer font-small">
+	    <div class="footer-copyright text-center py-3">&copy; 2020 Copyright: CornAI</div>
+	</footer>
+
+	<script>
+    $(document).ready(function(){
+        $('[data-toggle="popover"]').popover();
+
+        $('.first-button').on('click', function () {
+            $('.animated-icon1').toggleClass('open');
+        });
+    });
+    </script>
+</body>
+</html>
+{% endblock %}
